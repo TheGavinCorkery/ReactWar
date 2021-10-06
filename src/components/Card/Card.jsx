@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import App from '../../App';
+
 class Card extends Component {
     constructor(props) {
         super(props);
@@ -8,7 +10,7 @@ class Card extends Component {
             userCard: [],
             aiCard: [],
             userWins: 0,
-            aiWins: 0
+            aiWins: 0,
          }
     }
 
@@ -32,13 +34,12 @@ class Card extends Component {
         }else if (userCard[1] < aiCard[1]){
             winner = "aiWins"
         }else {
-            window.alert("The match was a tie")
+            
         }
         return winner
     }
 
-    runGame = (event) => {
-
+    runMatch = () => {
         let userCard = this.getCard();
         let aiCard = this.getCard();
         let winner = this.compareCards(userCard, aiCard);
@@ -60,7 +61,13 @@ class Card extends Component {
                 aiCard: aiCard,
             })
         }
-        
+    }
+
+    runGame = () => {
+        this.runMatch()
+        if (this.state.userWins == 5){
+            
+        }
     }
 
     render() { 
@@ -71,7 +78,7 @@ class Card extends Component {
                     <h3>{this.state.userWins}</h3>
                 </div>
                 <div className = "col-lg-8" align = "center">
-                    <button onClick = {this.runGame}>Run Match</button>
+                    <button onClick = {this.runGame} id = "runGame">Run Match</button>
                     <h2>Player One Card(You): {this.state.userCard[1]} of {this.state.userCard[0]}</h2>
                     <h2>Player Two Card: {this.state.aiCard[1]} of {this.state.aiCard[0]}</h2>
                 </div>
