@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
 class Card extends Component {
-    userScore = 0
-    aiScore = 0
     constructor(props) {
         super(props);
         this.state = { 
             suits: ["Hearts", "Clubs", "Diamonds", "Spades"],
             value: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13],
             userCard: [],
-            aiCard: []
+            aiCard: [],
+            score: []
          }
     }
 
@@ -20,56 +19,49 @@ class Card extends Component {
         return randomCard
     }
 
-    getAICard = () => {
-        let randCard = this.drawRandom()
-        this.setState({
-            aiCard: randCard
-        })
-        
-    }
-
     getCard = () => {
-        let userCard = this.drawRandom()
-        this.setState({
-            userCard: userCard
-        })
-        this.getAICard()
+        let randomCard = this.drawRandom()
+        return randomCard
     }
 
-    compareCards = () => {
-        if (this.state.userCard[1] > this.state.aiCard[1]){
-            this.userScore++;
-        }else if (this.state.userCard[1] < this.state.aiCard[1]){
-            this.aiScore++;
+    compareCards = (userCard, aiCard, score) => {
+        if (userCard[1] > aiCard[1]){
+            score[0]++
+        }else if (userCard[1] < aiCard[1]){
+            score[1]++
         }else {
             window.alert("The match was a tie")
         }
+        return score
     }
 
-    runGame = () => {
-        this.getCard();
-        this.compareCards();
-        this.forceUpdate();
+    runGame = (event) => {
+        let score = [0,0]
+        let userCard = this.getCard();
+        let aiCard = this.getCard();
+        score = this.compareCards(userCard, aiCard, score);
+        this.setState({
+            userCard: userCard,
+            aiCard: aiCard,
+            score: score
+        })
     }
 
     render() { 
-        console.log(this.state.userCard)
-        console.log(this.state.aiCard)
-
         return (
             <div className="row">
                 <div className="col-lg-2">
                     <h1>User Score</h1>
-                    <h3>{this.userScore}</h3>
+                    <h3>{this.state.score[0]}</h3>
                 </div>
                 <div className = "col-lg-8" align = "center">
-                    <button onClick = {this.runGame}>Generate Card</button>
+                    <button onClick = {this.runGame}>Run Match</button>
                     <h2>Player One Card(You): {this.state.userCard[1]} of {this.state.userCard[0]}</h2>
                     <h2>Player Two Card: {this.state.aiCard[1]} of {this.state.aiCard[0]}</h2>
                 </div>
                 <div className="col-lg-2">
                     <h1>AI Score</h1>
-                    <h3>{this.aiScore}</h3>
+                    <h3>{this.state.score[1]}</h3>
                 </div>
             </div>
          );
