@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 class Card extends Component {
+    userScore = 0
+    aiScore = 0
     constructor(props) {
         super(props);
         this.state = { 
@@ -32,14 +34,43 @@ class Card extends Component {
             userCard: userCard
         })
         this.getAICard()
-        console.log(this.state.userCard)
-        console.log(this.state.aiCard)
+    }
+
+    compareCards = () => {
+        if (this.state.userCard[1] > this.state.aiCard[1]){
+            this.userScore++;
+        }else if (this.state.userCard[1] < this.state.aiCard[1]){
+            this.aiScore++;
+        }else {
+            window.alert("The match was a tie")
+        }
+    }
+
+    runGame = () => {
+        this.getCard();
+        this.compareCards();
+        this.forceUpdate();
     }
 
     render() { 
-        return ( 
-            <div>
-                <button onClick = {this.getCard}>Generate Card</button>
+        console.log(this.state.userCard)
+        console.log(this.state.aiCard)
+
+        return (
+            <div className="row">
+                <div className="col-lg-2">
+                    <h1>User Score</h1>
+                    <h3>{this.userScore}</h3>
+                </div>
+                <div className = "col-lg-8" align = "center">
+                    <button onClick = {this.runGame}>Generate Card</button>
+                    <h2>Player One Card(You): {this.state.userCard[1]} of {this.state.userCard[0]}</h2>
+                    <h2>Player Two Card: {this.state.aiCard[1]} of {this.state.aiCard[0]}</h2>
+                </div>
+                <div className="col-lg-2">
+                    <h1>AI Score</h1>
+                    <h3>{this.aiScore}</h3>
+                </div>
             </div>
          );
     }
