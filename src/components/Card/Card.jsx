@@ -7,7 +7,8 @@ class Card extends Component {
             value: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13],
             userCard: [],
             aiCard: [],
-            score: []
+            userWins: 0,
+            aiWins: 0
          }
     }
 
@@ -24,27 +25,42 @@ class Card extends Component {
         return randomCard
     }
 
-    compareCards = (userCard, aiCard, score) => {
+    compareCards = (userCard, aiCard) => {
+        let winner = ""
         if (userCard[1] > aiCard[1]){
-            score[0]++
+            winner = "userWins"
         }else if (userCard[1] < aiCard[1]){
-            score[1]++
+            winner = "aiWins"
         }else {
             window.alert("The match was a tie")
         }
-        return score
+        return winner
     }
 
     runGame = (event) => {
-        let score = [0,0]
+
         let userCard = this.getCard();
         let aiCard = this.getCard();
-        score = this.compareCards(userCard, aiCard, score);
-        this.setState({
-            userCard: userCard,
-            aiCard: aiCard,
-            score: score
-        })
+        let winner = this.compareCards(userCard, aiCard);
+        if (winner == "userWins") {
+            this.setState({
+                userCard: userCard,
+                aiCard: aiCard,
+                userWins: this.state.userWins +  1
+            })
+        }else if (winner == "aiWins"){
+            this.setState({
+                userCard: userCard,
+                aiCard: aiCard,
+                aiWins: this.state.aiWins +  1
+            })
+        }else{
+            this.setState({
+                userCard: userCard,
+                aiCard: aiCard,
+            })
+        }
+        
     }
 
     render() { 
@@ -52,7 +68,7 @@ class Card extends Component {
             <div className="row">
                 <div className="col-lg-2">
                     <h1>User Score</h1>
-                    <h3>{this.state.score[0]}</h3>
+                    <h3>{this.state.userWins}</h3>
                 </div>
                 <div className = "col-lg-8" align = "center">
                     <button onClick = {this.runGame}>Run Match</button>
@@ -61,7 +77,7 @@ class Card extends Component {
                 </div>
                 <div className="col-lg-2">
                     <h1>AI Score</h1>
-                    <h3>{this.state.score[1]}</h3>
+                    <h3>{this.state.aiWins}</h3>
                 </div>
             </div>
          );
