@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Score from '../Score/Score';
 
 class Card extends Component {
     constructor(props) {
@@ -77,9 +78,10 @@ class Card extends Component {
                     <h3>{this.state.userWins}</h3>
                 </div>
                 <div className = "col-lg-8" align = "center">
-                    <button onClick = {() => this.runGame()} id = "runGame">Run Match</button>
+                    
                     <h2>Player One Card(You): {this.state.userCard[1]} of {this.state.userCard[0]}</h2>
                     <h2>Player Two Card: {this.state.aiCard[1]} of {this.state.aiCard[0]}</h2>
+                    <button onClick = {() => this.runGame()} id = "runGame">Run Match</button>
                 </div>
                 <div className="col-lg-2">
                     <h1>AI Score</h1>
