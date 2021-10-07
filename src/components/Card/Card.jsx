@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import App from '../../App';
 
 class Card extends Component {
     constructor(props) {
@@ -43,13 +42,13 @@ class Card extends Component {
         let userCard = this.getCard();
         let aiCard = this.getCard();
         let winner = this.compareCards(userCard, aiCard);
-        if (winner == "userWins") {
+        if (winner === "userWins") {
             this.setState({
                 userCard: userCard,
                 aiCard: aiCard,
                 userWins: this.state.userWins +  1
             })
-        }else if (winner == "aiWins"){
+        }else if (winner === "aiWins"){
             this.setState({
                 userCard: userCard,
                 aiCard: aiCard,
@@ -64,9 +63,9 @@ class Card extends Component {
     }
 
     runGame = () => {
-        this.runMatch()
-        if (this.state.userWins == 5){
-            
+        
+        if(this.state.userWins < 5 && this.state.aiWins < 5){
+            this.runMatch()
         }
     }
 
@@ -78,7 +77,7 @@ class Card extends Component {
                     <h3>{this.state.userWins}</h3>
                 </div>
                 <div className = "col-lg-8" align = "center">
-                    <button onClick = {this.runGame} id = "runGame">Run Match</button>
+                    <button onClick = {() => this.runGame()} id = "runGame">Run Match</button>
                     <h2>Player One Card(You): {this.state.userCard[1]} of {this.state.userCard[0]}</h2>
                     <h2>Player Two Card: {this.state.aiCard[1]} of {this.state.aiCard[0]}</h2>
                 </div>
